@@ -6,12 +6,6 @@ import {
   passwordValidator,
   passwordConfirmationValidator,
 } from "../../algos/signUpValidation";
-import Alert from "react-bootstrap/Alert";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/esm/Container";
-import Row from "react-bootstrap/esm/Row";
-import Col from "react-bootstrap/esm/Col";
 
 const SignUpForm = () => {
   const [username, setUsername] = useState<string>("");
@@ -75,9 +69,9 @@ const SignUpForm = () => {
 
   const usernameErrorList = errorState.map((error, index) =>
     error.error.type === "usernameError" ? (
-      <Alert variant="danger" key={index}>
+      <div key={index} className="sign-in-error">
         {error.error.message}
-      </Alert>
+      </div>
     ) : (
       <></>
     )
@@ -85,9 +79,9 @@ const SignUpForm = () => {
 
   const passwordErrorList = errorState.map((error, index) =>
     error.error.type === "passwordError" ? (
-      <Alert variant="danger" key={index}>
+      <div key={index} className="sign-in-error">
         {error.error.message}
-      </Alert>
+      </div>
     ) : (
       <></>
     )
@@ -95,9 +89,9 @@ const SignUpForm = () => {
 
   const passwordConfirmationErrorList = errorState.map((error, index) =>
     error.error.type === "passwordConfirmationError" ? (
-      <Alert variant="danger" key={index}>
+      <div key={index} className="sign-in-error">
         {error.error.message}
-      </Alert>
+      </div>
     ) : (
       <></>
     )
@@ -105,91 +99,85 @@ const SignUpForm = () => {
 
   const connectionErrorList = errorState.map((error, index) =>
     error.error.type === "validationError" ? (
-      <Alert variant="info" key={index}>
+      <div key={index} className="sign-in-error">
         {error.error.message}
-      </Alert>
+      </div>
     ) : (
       <></>
     )
   );
 
   return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Container>
-          <Row className="justify-content-center">
-            <Col xs={10} md={6} xl={4}>
-              <h3 className="mt-3 mb-3"> Sign Up </h3>
+    <div className="sign-in-form max-width-mid">
+      <form>
+        <h3> Sign Up </h3>
+        <div className="sign-up-input-grid">
+          <span>Username</span>
+          <input
+            type="text"
+            className="sign-in-input"
+            placeholder="Enter username"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+          />
 
-              <Form.Group className="mb-3" controlId="formBasicUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter username"
-                  onChange={(e) => setUsername(e.target.value)}
-                  value={username}
-                />
-                {usernameErrorList}
-              </Form.Group>
+          <div></div>
+          <div>
+            <span className="tiny-text"> Show Password </span>
+            <input
+              type="checkbox"
+              checked={showPassword}
+              className="tiny-text"
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setShowPassword(true);
+                } else {
+                  setShowPassword(false);
+                }
+              }}
+            />
+          </div>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Check
-                  type="switch"
-                  id="show-password-switch-sign"
-                  label="Show Password"
-                  checked={showPassword}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setShowPassword(true);
-                    } else {
-                      setShowPassword(false);
-                    }
-                  }}
-                />
-                <Form.Control
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                />
-                {passwordErrorList}
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="formBasicPasswordConfirmation"
-              >
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Confirm password"
-                  onChange={(e) => setPasswordConfirmation(e.target.value)}
-                  value={passwordConfirmation}
-                />
-                {passwordConfirmationErrorList}
-              </Form.Group>
+          <span>Password</span>
+          <input
+            type={showPassword ? "text" : "password"}
+            className="sign-in-input"
+            placeholder="Enter password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
 
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={isLoading}
-                className="my-2"
-              >
-                Sign Up
-              </Button>
+          <span>Confirm Password</span>
+          <input
+            type={showPassword ? "text" : "password"}
+            className="sign-in-input"
+            placeholder="Confirm password"
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            value={passwordConfirmation}
+          />
+        </div>
 
-              {hasSignedUp && connectionErrorList.length === 0 && (
-                <Alert variant="success">
-                  Thank You for Signing Up! Press "Log In" to Log In.
-                </Alert>
-              )}
+        <div className="flex-wrapper-center">
+          <button onClick={handleSubmit}>Sign Up</button>
+        </div>
 
-              {hasSignedUp && connectionErrorList}
-            </Col>
-          </Row>
-        </Container>
-      </Form>
-    </>
+        <div className="sign-in-error-wrapper">
+          {usernameErrorList}
+          {passwordErrorList}
+          {passwordConfirmationErrorList}
+        </div>
+
+        {hasSignedUp && connectionErrorList.length === 0 && (
+          <div className="sign-in-error-wrapper">
+            <div className="sign-up-success">
+              Thank You for Signing Up! Press "Log In" to Log In.
+            </div>
+          </div>
+        )}
+
+        {hasSignedUp && connectionErrorList}
+      </form>
+    </div>
   );
 };
 

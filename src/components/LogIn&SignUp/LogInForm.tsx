@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { useLogIn } from "../../hooks/useLogIn";
 import { useErrorContext } from "../../hooks/useErrorContext";
-import Alert from "react-bootstrap/Alert";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/esm/Container";
-import Row from "react-bootstrap/esm/Row";
-import Col from "react-bootstrap/esm/Col";
 
 const LogInForm = () => {
   const [username, setUsername] = useState<string>("");
@@ -26,68 +20,72 @@ const LogInForm = () => {
 
   const loginErrorList = errorState.map((error, index) =>
     error.error.type === "loginError" ? (
-      <Alert variant="danger" key={index}>
+      <div key={index} className="sign-in-error">
         {error.error.message}
-      </Alert>
+      </div>
+    ) : (
+      <></>
+    )
+  );
+
+  const connectionErrorList = errorState.map((error, index) =>
+    error.error.type === "validationError" ? (
+      <div key={index} className="sign-in-error">
+        {error.error.message}
+      </div>
     ) : (
       <></>
     )
   );
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Container>
-        <Row className="justify-content-center">
-          <Col xs={10} md={6} xl={4}>
-            <h3 className="mt-3 mb-3"> Log In </h3>
+    <div className="sign-in-form max-width-mid">
+      <form>
+        <h3> Log In </h3>
+        <div className="log-in-input-grid">
+          <span>Username</span>
+          <input
+            type="text"
+            className="sign-in-input"
+            placeholder="Enter username"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+          />
 
-            <Form.Group className="mb-3" controlId="formBasicUsername">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter username"
-                onChange={(e) => setUsername(e.target.value)}
-                value={username}
-              />
-            </Form.Group>
+          <div></div>
+          <div>
+            <span className="tiny-text"> Show Password </span>
+            <input
+              type="checkbox"
+              checked={showPassword}
+              className="tiny-text"
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setShowPassword(true);
+                } else {
+                  setShowPassword(false);
+                }
+              }}
+            />
+          </div>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Check
-                type="switch"
-                id="show-password-switch-log"
-                label="Show Password"
-                checked={showPassword}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setShowPassword(true);
-                  } else {
-                    setShowPassword(false);
-                  }
-                }}
-              />
-              <Form.Control
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-              />
-            </Form.Group>
+          <span>Password</span>
+          <input
+            type={showPassword ? "text" : "password"}
+            className="sign-in-input"
+            placeholder="Enter password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+        </div>
 
-            <Button
-              variant="primary"
-              type="submit"
-              disabled={isLoading}
-              className="my-2"
-            >
-              Log In
-            </Button>
+        <div className="flex-wrapper-center">
+          <button onClick={handleSubmit}>Log In</button>
+        </div>
 
-            {loginErrorList}
-          </Col>
-        </Row>
-      </Container>
-    </Form>
+        <div className="sign-in-error-wrapper">{loginErrorList}</div>
+      </form>
+    </div>
   );
 };
 

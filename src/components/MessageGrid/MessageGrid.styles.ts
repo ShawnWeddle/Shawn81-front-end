@@ -1,10 +1,7 @@
 import styled from "styled-components";
 
 const StyledMessageGrid = styled.div`
-  background-color: #BABABA;
-  border-radius: 0;
-  border: solid 0px;
-
+  background-color: #2b2b2b;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   grid-template-rows: repeat(9, 1fr);
@@ -14,6 +11,7 @@ const StyledMessageGrid = styled.div`
     width: 576px;
     height: 576px;
     border-radius: 0.375rem;
+    margin: 1rem;
   }
 `
 

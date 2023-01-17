@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useWindowContext } from "../../../hooks/useWindowContext";
-import { SetTextColorByCellColor } from "../../../algos/ColorAlgos";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -59,14 +58,11 @@ const MessageWindowProfileDisplay: React.FC<
           </Row>
         </Container>
       </Card.Header>
-      <StyledBackground
-        backgroundColor={props.color}
-        textColor={SetTextColorByCellColor(props.color)}
-      >
+      <div>
         <Card.Body>
           <Card.Text>"{props.message}"</Card.Text>
         </Card.Body>
-      </StyledBackground>
+      </div>
       <Card.Footer>
         {user?.username === activeMessage?.username && (
           <ButtonGroup>
