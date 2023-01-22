@@ -17,7 +17,7 @@ export const useUpdateMessage = () => {
 
   const msgId: string = (activeMessage ? activeMessage._id : "");
 
-  const updateMessage = async (username: string, msg: string, color: string, location: number) => {
+  const updateMessage = async (username: string, msg: string, location: number) => {
     setIsLoading(true);
     setError(null);
 
@@ -34,7 +34,7 @@ export const useUpdateMessage = () => {
     const response: globalThis.Response = await fetch(`http://localhost:1337/api/messages/${msgId}`, {
       method: "PUT",
       headers: reqHeaders,
-      body: JSON.stringify({username, msg, color, location})
+      body: JSON.stringify({username, msg, location})
     });
 
     const json = await response.json();

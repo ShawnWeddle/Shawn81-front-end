@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { useCreateMessage } from "../../../hooks/useCreateMessage";
-import { useWindowContext } from "../../../hooks/useWindowContext";
+import { useNavigate } from "react-router-dom";
+import { useCreateMessage } from "../../hooks/useCreateMessage";
+import { useWindowContext } from "../../hooks/useWindowContext";
 
 interface MessageWindowCreateProps {
   username: string;
   message: string;
-  color: string;
   location: number;
+  page: string;
 }
 
 const MessageWindowCreate: React.FC<MessageWindowCreateProps> = (
@@ -14,8 +15,9 @@ const MessageWindowCreate: React.FC<MessageWindowCreateProps> = (
 ) => {
   const [username, setUsername] = useState<string>(props.username);
   const [msg, setMsg] = useState<string>("");
-  const [color, setColor] = useState<string>(props.color);
   const [location, setLocation] = useState<number>(props.location);
+
+  const navigate = useNavigate();
 
   const { windowState, windowDispatch } = useWindowContext();
 
@@ -23,7 +25,11 @@ const MessageWindowCreate: React.FC<MessageWindowCreateProps> = (
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await createMessage(username, msg, color, location);
+    await createMessage(username, msg, location);
+    windowDispatch({
+      type: "CLOSED",
+      payload: { mode: "closed", activeMessage: null },
+    });
   };
 
   return (
@@ -31,17 +37,33 @@ const MessageWindowCreate: React.FC<MessageWindowCreateProps> = (
       <div className="message-window-top-wrapper">
         <div className="message-window-location">{props.location}</div>
         <div className="message-window-username">{props.username}</div>
-        <div
-          className="message-window-close-button"
-          onClick={() => {
-            windowDispatch({
-              type: "CLOSED",
-              payload: { mode: "closed", activeMessage: null },
-            });
-          }}
-        >
-          ✕
-        </div>
+        {props.page === "home" && (
+          <div
+            className="message-window-close-button"
+            onClick={() => {
+              windowDispatch({
+                type: "CLOSED",
+                payload: { mode: "closed", activeMessage: null },
+              });
+            }}
+          >
+            ✕
+          </div>
+        )}
+        {props.page === "profile" && (
+          <div
+            className="message-window-close-button"
+            onClick={() => {
+              windowDispatch({
+                type: "CLOSED",
+                payload: { mode: "closed", activeMessage: null },
+              });
+              navigate("/");
+            }}
+          >
+            ⮌
+          </div>
+        )}
       </div>
       <textarea
         className="message-window-text-area"
@@ -62,7 +84,7 @@ const MessageWindowCreate: React.FC<MessageWindowCreateProps> = (
       </div>
       <div className="flex-wrapper-center">
         <button
-          className="message-window-submit-button blue-on-hover"
+          className="message-window-button blue-on-hover"
           onClick={handleSubmit}
           disabled={isLoading || msg.length < 1 || msg.length > 500}
         >

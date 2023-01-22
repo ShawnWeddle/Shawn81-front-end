@@ -51,11 +51,10 @@ export const useDeleteMessage = () => {
 
     if(!response.ok){
       setIsLoading(false);
-      console.log(error);
     }
 
     if(response.ok){
-      messageDispatch({type: "DELETE-MESSAGE", payload: {messages: [activeMessage, ...messages]}})
+      messageDispatch({type: "DELETE-MESSAGE", payload: {messages: [activeMessage]}});
       setIsLoading(false);
     }
   }

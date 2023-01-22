@@ -1,6 +1,6 @@
 import { useWindowContext } from "../hooks/useWindowContext";
 import MessageGrid from "../components/MessageGrid/MessageGrid";
-import MessageWindow from "../components/MessageWindow/Home/MessageWindow.handler";
+import MessageWindowHome from "../components/MessageWindow/MessageWindow.home";
 
 interface HomePageProps {}
 
@@ -9,10 +9,13 @@ const HomePage = (props: HomePageProps) => {
   const mode = windowState.mode;
 
   return (
-    <>
-      <MessageGrid />
-      {mode !== "closed" && <MessageWindow />}
-    </>
+    <div className="flex-wrapper-center">
+      <div className="home-page-wrapper">
+        <MessageGrid />
+
+        <div>{mode !== "closed" && <MessageWindowHome />}</div>
+      </div>
+    </div>
   );
 };
 

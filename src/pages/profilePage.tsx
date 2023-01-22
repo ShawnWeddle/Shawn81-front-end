@@ -1,12 +1,18 @@
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useMessageContext } from "../hooks/useMessageContext";
 import { useWindowContext } from "../hooks/useWindowContext";
-import { MessageDocument, UnoccupiedMessageType } from "../algos/New";
-import PleaseLogIn from "../components/LogIn&SignUp/Please2";
-import MessageWindowProfile from "../components/MessageWindow/Profile/MessageWindow.profile.handler";
-import { useEffect } from "react";
+import { MessageDocument, UnoccupiedMessageType } from "../algos/EmptyMessages";
+import MessageWindowProfile from "../components/MessageWindow/MessageWindow.profile";
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
+  const [profileUsername, setProfileUsername] = useState<string | undefined>(
+    useParams().username
+  );
+  console.log(profileUsername);
+
   const { authState } = useAuthContext();
   const user = authState.user;
 
@@ -15,17 +21,17 @@ const ProfilePage = () => {
 
   const { windowDispatch } = useWindowContext();
 
-  const whatToReturn = (
+  let returnMessage: MessageDocument | UnoccupiedMessageType | null = null;
+
+  if (!profileUsername) {
+    navigate("/");
+    return <></>;
+  }
+
+  const checkMessage = (
     messageArray: (MessageDocument | UnoccupiedMessageType)[],
     username: string
   ) => {
-    let returnMessage: MessageDocument | UnoccupiedMessageType = {
-      _id: "NoID",
-      color: "#BABABA",
-      username: "",
-      msg: "",
-      location: -1,
-    };
     for (let message of messageArray) {
       if (message.username === username) {
         returnMessage = message;
@@ -34,8 +40,26 @@ const ProfilePage = () => {
     return returnMessage;
   };
 
-  if (!user) {
-    return <PleaseLogIn />;
+  checkMessage(messages, profileUsername);
+
+  if (returnMessage === null) {
+    return (
+      <div className="flex-wrapper-center">
+        <div className="no-message-posted">
+          <div>{profileUsername} has not posted a message </div>
+          <div>
+            <button
+              className="message-window-button blue-on-hover"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Home ⮌
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   useEffect(() => {
@@ -43,13 +67,13 @@ const ProfilePage = () => {
       type: "SET-PROFILE-DISPLAY",
       payload: {
         mode: "display",
-        activeMessage: whatToReturn(messages, user.username),
+        activeMessage: checkMessage(messages, profileUsername),
       },
     });
   }, []);
 
   return (
-    <div className="max-width-mid justify-content-between">
+    <div className="flex-wrapper-center">
       <MessageWindowProfile />
     </div>
   );

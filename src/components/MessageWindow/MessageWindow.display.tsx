@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../../hooks/useAuthContext";
-import { useWindowContext } from "../../../hooks/useWindowContext";
-import { useDeleteMessage } from "../../../hooks/useDeleteMessage";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useWindowContext } from "../../hooks/useWindowContext";
+import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 
 interface MessageWindowDisplayProps {
   username: string;
   message: string;
-  color: string;
   location: number;
+  page: string;
 }
 
 const MessageWindowDisplay: React.FC<MessageWindowDisplayProps> = (
@@ -32,6 +32,10 @@ const MessageWindowDisplay: React.FC<MessageWindowDisplayProps> = (
   const handleDelete = async (e: any) => {
     setShowDeleteModal(false);
     await deleteMessage();
+    windowDispatch({
+      type: "CLOSED",
+      payload: { mode: "closed", activeMessage: null },
+    });
     navigate("/");
   };
 
@@ -39,25 +43,48 @@ const MessageWindowDisplay: React.FC<MessageWindowDisplayProps> = (
     <div className="message-window-wrapper max-width-mid">
       <div className="message-window-top-wrapper">
         <div className="message-window-location">{props.location}</div>
-        <div className="message-window-username">{props.username}</div>
         <div
-          className="message-window-close-button"
+          className="message-window-username cursor-pointer"
           onClick={() => {
-            windowDispatch({
-              type: "CLOSED",
-              payload: { mode: "closed", activeMessage: null },
-            });
+            navigate(`/profile/${props.username}`);
           }}
         >
-          ✕
+          {props.username}
         </div>
+        {props.page === "home" && (
+          <div
+            className="message-window-close-button"
+            onClick={() => {
+              windowDispatch({
+                type: "CLOSED",
+                payload: { mode: "closed", activeMessage: null },
+              });
+            }}
+          >
+            ✕
+          </div>
+        )}
+        {props.page === "profile" && (
+          <div
+            className="message-window-close-button"
+            onClick={() => {
+              windowDispatch({
+                type: "CLOSED",
+                payload: { mode: "closed", activeMessage: null },
+              });
+              navigate("/");
+            }}
+          >
+            ⮌
+          </div>
+        )}
       </div>
       <div className="message-window-msg">"{props.message}"</div>
       <div className="flex-wrapper-center">
         {user?.username === activeMessage?.username && (
           <div>
             <button
-              className="message-window-edit-button blue-on-hover"
+              className="message-window-button blue-on-hover"
               onClick={() => {
                 windowDispatch({
                   type: "DISPLAY-TO-EDIT",
@@ -65,20 +92,20 @@ const MessageWindowDisplay: React.FC<MessageWindowDisplayProps> = (
                 });
               }}
             >
-              EDIT
+              Edit
             </button>
             <button
-              className="message-window-delete-button red-on-hover"
+              className="message-window-button red-on-hover"
               onClick={handleShowDeleteModal}
             >
-              DELETE
+              Delete
             </button>
           </div>
         )}
       </div>
       {showDeleteModal && (
         <div className="flex-wrapper-center">
-          <div className="delete-modal">
+          <div className="d-modal">
             Hold up, {user?.username}! Are you sure you want to delete your
             message?
           </div>

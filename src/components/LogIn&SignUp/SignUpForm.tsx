@@ -158,7 +158,9 @@ const SignUpForm = () => {
         </div>
 
         <div className="flex-wrapper-center">
-          <button onClick={handleSubmit}>Sign Up</button>
+          <button className="blue-on-hover" onClick={handleSubmit}>
+            Sign Up
+          </button>
         </div>
 
         <div className="sign-in-error-wrapper">

@@ -1,5 +1,5 @@
 import { createContext, useReducer } from "react";
-import { MessageDocument, UnoccupiedMessageType } from "../algos/New";
+import { MessageDocument, UnoccupiedMessageType } from "../algos/EmptyMessages";
 
 export const WindowContext = createContext<ContextType | null>(null);
 

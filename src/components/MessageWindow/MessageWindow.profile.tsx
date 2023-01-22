@@ -1,14 +1,12 @@
-import { useNavigate } from "react-router-dom";
-import { useWindowContext } from "../../../hooks/useWindowContext";
-import { useAuthContext } from "../../../hooks/useAuthContext";
-import MessageWindowProfileCreate from "./MessageWindow.profile.create";
-import MessageWindowProfileUpdate from "./MessageWindow.profile.update";
-import MessageWindowProfileDisplay from "./MessageWindow.profile.display";
+import { useWindowContext } from "../../hooks/useWindowContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import MessageWindowCreate from "./MessageWindow.create";
+import MessageWindowUpdate from "./MessageWindow.update";
+import MessageWindowDisplay from "./MessageWindow.display";
+import PleaseCard from "../LogIn&SignUp/PleaseCard";
 
 const MessageWindowProfile: React.FC = () => {
-  const navigate = useNavigate();
-
-  const { windowState } = useWindowContext();
+  const { windowState, windowDispatch } = useWindowContext();
   const mode = windowState.mode;
   const activeMessage = windowState.activeMessage;
 
@@ -19,34 +17,32 @@ const MessageWindowProfile: React.FC = () => {
     if (activeMessage) {
       if (user) {
         return (
-          <MessageWindowProfileCreate
+          <MessageWindowCreate
             username={user.username}
             message={activeMessage.msg}
-            color={activeMessage.color}
             location={activeMessage.location}
+            page="profile"
           />
         );
       } else {
-        navigate("/");
-        return <></>;
+        return <PleaseCard />;
       }
     } else {
-      return <>You shouldn't be seeing this at all</>;
+      return <>You shouldn't be seeing this</>;
     }
   } else if (mode === "update") {
     if (activeMessage) {
       if (user) {
         return (
-          <MessageWindowProfileUpdate
+          <MessageWindowUpdate
             username={user.username}
             message={activeMessage.msg}
-            color={activeMessage.color}
             location={activeMessage.location}
+            page="profile"
           />
         );
       } else {
-        navigate("/");
-        return <></>;
+        return <PleaseCard />;
       }
     } else {
       return <>You shouldn't be seeing this</>;
@@ -54,15 +50,15 @@ const MessageWindowProfile: React.FC = () => {
   } else if (mode === "display") {
     if (activeMessage) {
       return (
-        <MessageWindowProfileDisplay
+        <MessageWindowDisplay
           username={activeMessage.username}
           message={activeMessage.msg}
-          color={activeMessage.color}
           location={activeMessage.location}
+          page="profile"
         />
       );
     } else {
-      return <>You shouldn't be seeing this either</>;
+      return <>You shouldn't be seeing this</>;
     }
   } else {
     return <>CLOSED</>;

@@ -80,7 +80,9 @@ const LogInForm = () => {
         </div>
 
         <div className="flex-wrapper-center">
-          <button onClick={handleSubmit}>Log In</button>
+          <button className="blue-on-hover" onClick={handleSubmit}>
+            Log In
+          </button>
         </div>
 
         <div className="sign-in-error-wrapper">{loginErrorList}</div>

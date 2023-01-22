@@ -1,11 +1,11 @@
-import { useWindowContext } from "../../../hooks/useWindowContext";
-import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useWindowContext } from "../../hooks/useWindowContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import MessageWindowCreate from "./MessageWindow.create";
 import MessageWindowUpdate from "./MessageWindow.update";
 import MessageWindowDisplay from "./MessageWindow.display";
-import PleaseBlurb from "../../LogIn&SignUp/Please";
+import PleaseCard from "../LogIn&SignUp/PleaseCard";
 
-const MessageWindow: React.FC = () => {
+const MessageWindowHome: React.FC = () => {
   const { windowState, windowDispatch } = useWindowContext();
   const mode = windowState.mode;
   const activeMessage = windowState.activeMessage;
@@ -20,12 +20,12 @@ const MessageWindow: React.FC = () => {
           <MessageWindowCreate
             username={user.username}
             message={activeMessage.msg}
-            color={activeMessage.color}
             location={activeMessage.location}
+            page="home"
           />
         );
       } else {
-        return <PleaseBlurb />;
+        return <PleaseCard />;
       }
     } else {
       return <>You shouldn't be seeing this</>;
@@ -37,12 +37,12 @@ const MessageWindow: React.FC = () => {
           <MessageWindowUpdate
             username={user.username}
             message={activeMessage.msg}
-            color={activeMessage.color}
             location={activeMessage.location}
+            page="home"
           />
         );
       } else {
-        return <PleaseBlurb />;
+        return <PleaseCard />;
       }
     } else {
       return <>You shouldn't be seeing this</>;
@@ -53,8 +53,8 @@ const MessageWindow: React.FC = () => {
         <MessageWindowDisplay
           username={activeMessage.username}
           message={activeMessage.msg}
-          color={activeMessage.color}
           location={activeMessage.location}
+          page="home"
         />
       );
     } else {
@@ -65,4 +65,4 @@ const MessageWindow: React.FC = () => {
   }
 };
 
-export default MessageWindow;
+export default MessageWindowHome;

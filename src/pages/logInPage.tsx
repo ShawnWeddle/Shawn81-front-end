@@ -13,7 +13,11 @@ const LogInPage = (props: LogInPageProps) => {
     navigate("/");
   }
 
-  return <LogInForm />;
+  return (
+    <div className="flex-wrapper-center">
+      <LogInForm />
+    </div>
+  );
 };
 
 export default LogInPage;

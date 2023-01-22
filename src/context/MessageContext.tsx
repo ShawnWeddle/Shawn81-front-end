@@ -3,7 +3,7 @@ import {
   MessageDocument,
   UnoccupiedMessageType,
   baseMessageArray,
-} from "../algos/New";
+} from "../algos/EmptyMessages";
 
 export const MessageContext = createContext<ContextType | null>(null);
 
@@ -28,31 +28,37 @@ type MessageReducerState = {
 };
 type MessageReducerAction = {
   type: string;
-  payload: { messages: (MessageDocument | UnoccupiedMessageType)[] };
+  payload: {
+    messages: (MessageDocument | UnoccupiedMessageType)[];
+  };
 };
 
 export const messageReducer = (
   state: MessageReducerState,
   action: MessageReducerAction
 ) => {
+  const activeMessages: (MessageDocument | UnoccupiedMessageType)[] =
+    action.payload.messages;
   switch (action.type) {
     case "ADD-ALL-MESSAGES":
-      action.payload.messages.map((message, index) => {
+      activeMessages.map((message, index) => {
         state.messages[message.location] = message;
       });
+      return state;
+    case "CREATE-MESSAGE":
+      state.messages[activeMessages[0].location] = activeMessages[0];
       return state;
     case "UPDATE-MESSAGE":
-      action.payload.messages.map((message, index) => {
-        state.messages[message.location] = message;
-      });
+      state.messages[activeMessages[0].location] = activeMessages[0];
       return state;
     case "DELETE-MESSAGE":
-      state.messages[action.payload.messages[0].location] =
-        action.payload.messages[0];
-      console.log(action.payload.messages[0].location);
-      console.log(state.messages);
-      state.messages.shift();
-      console.log(state.messages);
+      state.messages[activeMessages[0].location] = {
+        _id: "NoID",
+        color: "#BABABA",
+        username: "",
+        msg: "",
+        location: activeMessages[0].location,
+      };
       return state;
     default:
       return state;

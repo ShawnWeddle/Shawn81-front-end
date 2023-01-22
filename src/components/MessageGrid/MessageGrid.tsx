@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useMessageContext } from "../../hooks/useMessageContext";
-import { StyledMessageGrid } from "./MessageGrid.styles";
 import MessageCell from "../MessageCells/MessageCell";
-import { MessageDocument, UnoccupiedMessageType } from "../../algos/New";
+import {
+  MessageDocument,
+  UnoccupiedMessageType,
+} from "../../algos/EmptyMessages";
 
 const MessageGrid: React.FC = () => {
   const { messageState, messageDispatch } = useMessageContext();
@@ -18,14 +20,14 @@ const MessageGrid: React.FC = () => {
   }
 
   const displayMessages = messages.map((message, index) => (
-    <MessageCell
-      key={index}
-      location={index}
-      messageProperties={message}
-    ></MessageCell>
+    <MessageCell key={index} location={index} messageProperties={message} />
   ));
 
-  return <StyledMessageGrid>{displayMessages}</StyledMessageGrid>;
+  return (
+    <div className="max-width-mid">
+      <div className="message-grid">{displayMessages}</div>
+    </div>
+  );
 };
 
 export default MessageGrid;

@@ -9,7 +9,10 @@ export const useCreateMessage = () => {
   const { authState } = useAuthContext();
   const user = authState.user;
 
-  const createMessage = async (username: string, msg: string, color: string, location: number) => {
+  const { messageState, messageDispatch } = useMessageContext();
+  const messages = messageState.messages;
+
+  const createMessage = async (username: string, msg: string, location: number) => {
     setIsLoading(true);
     setError(null);
 
@@ -26,10 +29,11 @@ export const useCreateMessage = () => {
     const response: globalThis.Response = await fetch("http://localhost:1337/api/messages", {
       method: "POST",
       headers: reqHeaders,
-      body: JSON.stringify({username, msg, color, location})
+      body: JSON.stringify({username, msg, location})
     });
 
-    const json = await response.json();
+    const json: any = await response.json();
+    console.log(json);
 
     if(!response.ok){
       setIsLoading(false);
@@ -37,6 +41,7 @@ export const useCreateMessage = () => {
     }
 
     if(response.ok){
+      messageDispatch({type: "CREATE-MESSAGE", payload: {messages: [json]}});
       setIsLoading(false);
     }
   }

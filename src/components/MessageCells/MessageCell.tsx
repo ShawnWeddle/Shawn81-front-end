@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useWindowContext } from "../../hooks/useWindowContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-import { UnoccupiedMessageType, MessageDocument } from "../../algos/New";
-import { StyledMessageCell } from "./MessageCell.styles";
+import {
+  UnoccupiedMessageType,
+  MessageDocument,
+} from "../../algos/EmptyMessages";
 
 interface MessageCellProps {
   location: number;
@@ -13,14 +15,18 @@ interface MessageCellProps {
 const MessageCell: React.FC<MessageCellProps> = (props: MessageCellProps) => {
   const [index, setIndex] = useState<number>(props.location);
 
-  const newOccupied: boolean = props.messageProperties._id !== "NoID";
+  const occupied: boolean = props.messageProperties._id !== "NoID";
 
   const { windowState, windowDispatch } = useWindowContext();
   const activeMessage = windowState.activeMessage;
 
+  const dynamicClassName: string = occupied
+    ? "message-cell blue-on-hover"
+    : "message-cell red-on-hover-secondary";
+
   return (
-    <StyledMessageCell
-      occupied={newOccupied}
+    <div
+      className={dynamicClassName}
       onClick={() => {
         if (props.messageProperties._id === "NoID") {
           windowDispatch({
@@ -39,7 +45,7 @@ const MessageCell: React.FC<MessageCellProps> = (props: MessageCellProps) => {
       }}
     >
       {index}
-    </StyledMessageCell>
+    </div>
   );
 };
 
