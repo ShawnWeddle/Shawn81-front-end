@@ -48,6 +48,34 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.loading-page{
+  color: #CCC;
+  display: flex;
+  font-size: 4rem;
+  justify-content: center;
+  margin: 5rem;
+}
+
+.loading-page-letter:nth-child(odd){
+  animation: blue-to-white 5s cubic-bezier(0.3, 0, 0.7, 1) infinite;
+}
+
+.loading-page-letter:nth-child(even){
+  animation: white-to-blue 5s cubic-bezier(0.3, 0, 0.7, 1) infinite;
+}
+
+@keyframes blue-to-white{
+  0% {color: #006;}
+  50% {color: #CCC;}
+  100% {color: #006;}
+}
+
+@keyframes white-to-blue{
+  0% {color: #CCC;}
+  50% {color: #006;}
+  100% {color: #CCC;}
+}
+
 .nav-button-group-wrapper{
   margin: 1rem 2rem;
 }
