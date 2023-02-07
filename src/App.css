@@ -18,6 +18,11 @@
   }
 }
 
+.rules-wrapper > p{
+  color: #CCC;
+  margin: 1rem;
+}
+
 .max-width-mid{
   width: 576px;
 }
@@ -275,6 +280,56 @@
 .d-modal{
   color: #CCC;
   margin: 1rem;
+}
+
+.bug-textarea-wrapper{
+  border-radius: 0.5rem;
+  border: #CCC solid 2px;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.bug-textarea-form{
+  display: flex;
+  flex-direction: column;
+  width: max(500px, 2rem);
+}
+
+.bug-textarea-button{
+  border-radius: 0.5rem;
+  border: #CCC solid 2px;
+  color: #CCC;
+  cursor: pointer;
+  margin: 0.375rem;
+}
+
+.foot-wrapper{
+  background-color: #333;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.foot-link-wrapper{
+  color: #CCC;
+  margin: 1rem 0.5rem;
+}
+
+.foot-link-wrapper:hover{
+  text-decoration: underline;
+}
+
+.foot-link-wrapper > a:link, a:visited, a:hover{
+  color: #CCC;
+  text-decoration: underline;
+}
+
+.foot-link-wrapper > a:active{
+  color: #006;
+}
+
+.foot-link:hover{
+  text-decoration: underline;
 }
 
 .red-on-hover{

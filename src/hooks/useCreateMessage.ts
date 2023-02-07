@@ -9,8 +9,7 @@ export const useCreateMessage = () => {
   const { authState } = useAuthContext();
   const user = authState.user;
 
-  const { messageState, messageDispatch } = useMessageContext();
-  const messages = messageState.messages;
+  const { messageDispatch } = useMessageContext();
 
   const createMessage = async (username: string, msg: string, location: number) => {
     setIsLoading(true);
@@ -33,7 +32,6 @@ export const useCreateMessage = () => {
     });
 
     const json: any = await response.json();
-    console.log(json);
 
     if(!response.ok){
       setIsLoading(false);

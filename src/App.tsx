@@ -3,15 +3,17 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useMessageContext } from "./hooks/useMessageContext";
 import NavBar from "./components/Nav/NavBar";
+import FootBar from "./components/Foot/FootBar";
 import HomePage from "./pages/homePage";
 import SignUpPage from "./pages/signUpPage";
 import LogInPage from "./pages/logInPage";
 import ProfilePage from "./pages/profilePage";
 import LoadingPage from "./pages/loadingPage";
+import BugPage from "./pages/bugPage";
 
 export const App = () => {
   const [hasFetchedMessages, setHasFetchedMessages] = useState<boolean>(false);
-  const { messageState, messageDispatch } = useMessageContext();
+  const { messageDispatch } = useMessageContext();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -32,33 +34,22 @@ export const App = () => {
     fetchMessages();
   }, []);
 
-  if (!hasFetchedMessages) {
-    return (
-      <div className="App">
-        <Router>
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<LoadingPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LogInPage />} />
-            <Route path="/profile/:username" element={<ProfilePage />} />
-          </Routes>
-        </Router>
-      </div>
-    );
-  } else {
-    return (
-      <div className="App">
-        <Router>
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LogInPage />} />
-            <Route path="/profile/:username" element={<ProfilePage />} />
-          </Routes>
-        </Router>
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <Router>
+        <NavBar />
+        <Routes>
+          <Route
+            path="/"
+            element={hasFetchedMessages ? <HomePage /> : <LoadingPage />}
+          />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<LogInPage />} />
+          <Route path="/profile/:username" element={<ProfilePage />} />
+          <Route path="/bugs" element={<BugPage />} />
+        </Routes>
+        <FootBar />
+      </Router>
+    </div>
+  );
 };

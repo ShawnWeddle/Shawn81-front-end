@@ -54,7 +54,6 @@ export const messageReducer = (
     case "DELETE-MESSAGE":
       state.messages[activeMessages[0].location] = {
         _id: "NoID",
-        color: "#BABABA",
         username: "",
         msg: "",
         location: activeMessages[0].location,

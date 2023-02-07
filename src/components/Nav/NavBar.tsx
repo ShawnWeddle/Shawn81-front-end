@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useMessageContext } from "../../hooks/useMessageContext";
 import { useLogOut } from "../../hooks/useLogOut";
 
 const NavBar: React.FC = () => {

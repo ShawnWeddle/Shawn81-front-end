@@ -3,6 +3,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import MessageWindowCreate from "./MessageWindow.create";
 import MessageWindowUpdate from "./MessageWindow.update";
 import MessageWindowDisplay from "./MessageWindow.display";
+import MessageWindowRules from "./MessageWindow.rules";
 import PleaseCard from "../LogIn&SignUp/PleaseCard";
 
 const MessageWindowHome: React.FC = () => {
@@ -61,7 +62,7 @@ const MessageWindowHome: React.FC = () => {
       return <>You shouldn't be seeing this</>;
     }
   } else {
-    return <>CLOSED</>;
+    return <MessageWindowRules />;
   }
 };
 

@@ -44,7 +44,7 @@ const MessageWindowUpdate: React.FC<MessageWindowUpdateProps> = (
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await updateMessage(username, msg, color, location);
+    await updateMessage(username, msg, location);
     windowDispatch({
       type: "CLOSED",
       payload: { mode: "closed", activeMessage: null },

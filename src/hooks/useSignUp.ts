@@ -21,8 +21,6 @@ export const useSignUp = () => {
 
     const json = await response.json();
 
-    console.log(json);
-
     if(!response.ok){
 
       if(json.error.message === "This username is already taken"){

@@ -13,7 +13,7 @@ export const useUpdateMessage = () => {
   const { windowState } = useWindowContext();
   const activeMessage = windowState.activeMessage;
 
-  const { messageState, messageDispatch } = useMessageContext();
+  const { messageDispatch } = useMessageContext();
 
   const msgId: string = (activeMessage ? activeMessage._id : "");
 
@@ -39,10 +39,7 @@ export const useUpdateMessage = () => {
 
     const json = await response.json();
 
-
     if(!response.ok){
-      console.log(json);
-      console.log("update error");
       setIsLoading(false);
     }
 
